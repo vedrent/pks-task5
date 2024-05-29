@@ -1,0 +1,30 @@
+﻿@model IEnumerable<task5.Models.Performance>
+
+<h1>Performance</h1>
+
+<form method="get" asp-action="Index">
+    <div class="form-group">
+        <input type="text" name="searchString" class="form-control" placeholder="Search" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Semester</th>
+        <th>Subject</th>
+        <th>Grade</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Semester</td>
+            <td>@item.Subject</td>
+            <td>@item.Grade</td>
+        </tr>
+    }
+    </tbody>
+</table>

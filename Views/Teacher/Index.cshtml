@@ -1,0 +1,23 @@
+﻿@model IEnumerable<task5.Models.Teacher>
+
+<h1>Teachers</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Subject</th>
+        <th>Department</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Subject</td>
+            <td>@item.Department</td>
+        </tr>
+    }
+    </tbody>
+</table>
