@@ -1,0 +1,48 @@
+﻿@model IEnumerable<task5.Models.Performance>
+
+@{
+    ViewData["Title"] = "Успеваемость";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<h2>Успеваемость</h2>
+<input type="text" id="search" placeholder="Поиск..." class="form-control mb-3" />
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Семестр</th>
+        <th>Название дисциплины</th>
+        <th>Оценка</th>
+    </tr>
+    </thead>
+    <tbody id="performanceTable">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Semester</td>
+            <td>@item.DisciplineName</td>
+            <td>@item.Grade</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        document.getElementById('search').addEventListener('input', function () {
+            var search = this.value.toLowerCase();
+            var rows = document.querySelectorAll('#performanceTable tr');
+            rows.forEach(function (row) {
+                var cells = row.querySelectorAll('td');
+                var match = false;
+                cells.forEach(function (cell) {
+                    if (cell.textContent.toLowerCase().includes(search)) {
+                        match = true;
+                    }
+                });
+                row.style.display = match ? '' : 'none';
+            });
+        });
+    </script>
+}

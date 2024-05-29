@@ -1,0 +1,28 @@
+﻿@model IEnumerable<task5.Models.Teacher>
+
+@{
+    ViewData["Title"] = "Преподаватели";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<h2>Преподаватели</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>ФИО преподавателя</th>
+        <th>Название дисциплины</th>
+        <th>Название кафедры</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.FullName</td>
+            <td>@item.DisciplineName</td>
+            <td>@item.DepartmentName</td>
+        </tr>
+    }
+    </tbody>
+</table>

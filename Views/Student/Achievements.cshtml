@@ -1,0 +1,61 @@
+﻿@model IEnumerable<task5.Models.Achievement>
+
+@{
+    ViewData["Title"] = "Личные достижения";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<h2>Личные достижения</h2>
+<div class="form-row mb-3">
+    <div class="col">
+        <input type="date" id="filterDate" class="form-control" placeholder="Дата" />
+    </div>
+    <div class="col">
+        <select id="filterType" class="form-control">
+            <option value="">Все виды</option>
+            <option value="учеба">Учеба</option>
+            <option value="спорт">Спорт</option>
+            <option value="наука">Наука</option>
+        </select>
+    </div>
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Вид</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody id="achievementTable">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Date.ToShortDateString()</td>
+                <td><span>@item.Type</span></td>
+                <td>@item.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        document.getElementById('filterDate').addEventListener('input', filterTable);
+        document.getElementById('filterType').addEventListener('change', filterTable);
+
+        function filterTable() {
+            var date = document.getElementById('filterDate').value;
+            var type = document.getElementById('filterType').value.toLowerCase();
+            var rows = document.querySelectorAll('#achievementTable tr');
+            rows.forEach(function (row) {
+                var dateCell = row.querySelector('td:first-child').textContent;
+                var typeCell = row.querySelector('td:nth-child(2) span').textContent.toLowerCase();
+                var matchDate = date ? dateCell === date : true;
+                var matchType = type ? typeCell.includes(type) : true;
+                row.style.display = matchDate && matchType ? '' : 'none';
+            });
+        }
+    </script>
+}
