@@ -8,7 +8,10 @@
 <h2>Личные достижения</h2>
 <div class="form-row mb-3">
     <div class="col">
-        <input type="date" id="filterDate" class="form-control" placeholder="Дата" />
+        <input type="date" id="filterDateFrom" class="form-control" placeholder="Дата от" />
+    </div>
+    <div class="col">
+        <input type="date" id="filterDateTo" class="form-control" placeholder="Дата до" />
     </div>
     <div class="col">
         <select id="filterType" class="form-control">
@@ -42,17 +45,32 @@
 
 @section Scripts {
     <script>
-        document.getElementById('filterDate').addEventListener('input', filterTable);
+        document.getElementById('filterDateFrom').addEventListener('input', filterTable);
+        document.getElementById('filterDateTo').addEventListener('input', filterTable);
         document.getElementById('filterType').addEventListener('change', filterTable);
 
         function filterTable() {
-            var date = document.getElementById('filterDate').value;
+            var dateFrom = document.getElementById('filterDateFrom').value;
+            var dateTo = document.getElementById('filterDateTo').value;
             var type = document.getElementById('filterType').value.toLowerCase();
             var rows = document.querySelectorAll('#achievementTable tr');
             rows.forEach(function (row) {
                 var dateCell = row.querySelector('td:first-child').textContent;
                 var typeCell = row.querySelector('td:nth-child(2) span').textContent.toLowerCase();
-                var matchDate = date ? dateCell === date : true;
+                var matchDate = true;
+                
+                var dateParts = dateCell.split('.');
+                var rowDate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+                if (dateFrom) {
+                    var fromParts = dateFrom.split('-');
+                    var fromDate = new Date(fromParts[0], fromParts[1] - 1, fromParts[2]);
+                    matchDate = rowDate >= fromDate;
+                }
+                if (dateTo) {
+                    var toParts = dateTo.split('-');
+                    var toDate = new Date(toParts[0], toParts[1] - 1, toParts[2]);
+                    matchDate = matchDate && rowDate <= toDate;
+                }
                 var matchType = type ? typeCell.includes(type) : true;
                 row.style.display = matchDate && matchType ? '' : 'none';
             });
